@@ -10,9 +10,9 @@
 #include <QMessageBox>
 #include <QMetaEnum>
 
-double MainWindow::inner;    //catch the data from MainWindow.
-double MainWindow::moto;
-double MainWindow::outer;
+int MainWindow::inner;    //catch the data from MainWindow.
+int MainWindow::moto;
+int MainWindow::outer;
 
 Chart::Chart(QWidget *parent) :
   QWidget(parent),
@@ -106,9 +106,9 @@ void Chart::realtimeDataSlot()
     // add data to lines:
     //ui->customPlot->graph(0)->addData(key, qSin(key)+std::rand()/(double)RAND_MAX*1*qSin(key/0.3843));
     //ui->customPlot->graph(1)->addData(key, qCos(key)+std::rand()/(double)RAND_MAX*0.5*qSin(key/0.4364));
-       double eround=MainWindow::inner;
-       double mround=MainWindow::moto;
-       double bround=MainWindow::outer;
+       int eround=MainWindow::inner;
+       int mround=MainWindow::moto;
+       int bround=MainWindow::outer;
        //const MainWiSerialData pp=m_SerialData->serialdata();
        ui->customPlot->graph(0)->addData(key, /*pp.enround*/ eround);
        ui->customPlot->graph(1)->addData(key, /*pp.motoround*/ mround);

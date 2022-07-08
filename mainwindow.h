@@ -16,9 +16,9 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    static double inner; //Transfer the serial data from mainwindow to chart.
-    static double moto;
-    static double outer;
+    static int inner; //Transfer the serial data from mainwindow to chart.
+    static int moto;
+    static int outer;
 //    struct SerialData{
 //        int enround;
 //        int motoround;
@@ -43,6 +43,14 @@ private slots:
 //    void sendDataChart(int encoderround,int motoround,int biground);
 
 
+
+    void on_clearInnerButton_clicked();
+
+    void on_clearouterButton_clicked();
+
+    void on_clearmotoButton_clicked();
+
+    void on_startButton_clicked();
 
 private:
     void showStatusMessage(const QString &message);
