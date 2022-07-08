@@ -23,6 +23,10 @@ MainWindow::MainWindow(QWidget *parent)
     QTextStream out(&m_file_save);
     out<<"date"<<","<<"inner"<<","<<"moto"<<","<<"outer"<<"\n";
     ui->disconnectButton->setEnabled(false);
+    ui->clearmotoButton->setEnabled(false);
+    ui->clearInnerButton->setEnabled(false);
+    ui->clearouterButton->setEnabled(false);
+    ui->startButton->setEnabled(false);
     ui->resetlabel->setText("");
    /// ui->writeButton->setEnabled(false);
     Chart* chart1 = new Chart();
@@ -54,6 +58,10 @@ void MainWindow::openSerialPort()
 //        m_console->setLocalEchoEnabled(p.localEchoEnabled);
         ui->configButton->setEnabled(false);
         ui->disconnectButton->setEnabled(true);
+        ui->clearmotoButton->setEnabled(true);
+        ui->clearInnerButton->setEnabled(true);
+        ui->clearouterButton->setEnabled(true);
+        ui->startButton->setEnabled(true);
         //ui->writeButton->setEnabled(true);
         //ui->actionConfigure->setEnabled(false);
         showStatusMessage(tr("Connected to %1 : %2, %3, %4, %5, %6")
@@ -69,6 +77,10 @@ void MainWindow::openSerialPort()
 void MainWindow::on_startButton_clicked()
 {
     ui->resetlabel->setText("The process start");
+    ui->clearmotoButton->setEnabled(false);
+    ui->clearInnerButton->setEnabled(false);
+    ui->clearouterButton->setEnabled(false);
+    ui->startButton->setEnabled(false);
     connect(&wriDataTimer, SIGNAL(timeout()), this, SLOT(readData()));                    //Timer for loop function
     wriDataTimer.start(60);
 }
@@ -81,6 +93,7 @@ void MainWindow::closeSerialPort()
     ui->connectButton->setEnabled(true);
     ui->disconnectButton->setEnabled(false);
     ui->configButton->setEnabled(true);
+    ui->startButton->setEnabled(false);
     //ui->writeButton->setEnabled(false);
 //    m_serialData.enround=0;
 //    m_serialData.motoround=0;
@@ -163,9 +176,7 @@ void MainWindow::clearOuter(){
 void MainWindow::readData()
 {
     flag=true;
-    while(flag){
-        const int pulse_count=13;
-
+    if(flag){
         const QByteArray str1="#0123";
          //qDebug()<<1;
         m_serial->write(str1);
@@ -176,7 +187,10 @@ void MainWindow::readData()
             const char *mm=data.data();
             qDebug()<<data;
             QString sss=mm;
-            inner=sss.mid(2).toInt();
+            inner=sss.mid(1).toInt();
+            if(inner<0){
+                inner=-inner;
+            }
 //            if (inner>8599999999){
 //                inner1=inner;
 //               clearInner();
@@ -203,10 +217,13 @@ void MainWindow::readData()
           if(m_serial->waitForReadyRead()){
                  const QByteArray data1 = m_serial->readAll();
                  //m_serial->clear();
-                 qDebug()<<data1;
+                 //qDebug()<<data1;
                  const char *mm1=data1.data();
                  QString sss1=mm1;
                  moto=sss1.mid(1).toInt();    //catch the total pulse count
+                 if(moto<0){
+                     moto=-moto;
+                 }
 
           }
 
@@ -215,11 +232,14 @@ void MainWindow::readData()
             m_serial->write(str3);
            if(m_serial->waitForReadyRead()){
                 const QByteArray data2= m_serial->readAll();
-                qDebug()<<data2;
+                //qDebug()<<data2;
                 const char *mm2=data2.data();
                  QString sss2=mm2;
                  //double xishu11=1.32;
-                outer=sss2.mid(2).toInt();
+                 outer=sss2.mid(1).toInt();
+                 if(outer<0){
+                     outer=-outer;
+                 }
    }
             QDateTime current_date_time =QDateTime::currentDateTime();
             QString current_date =current_date_time.toString("yyyy.MM.dd hh:mm:ss");
@@ -245,6 +265,8 @@ void MainWindow::on_clearInnerButton_clicked()
        innerreset=sss2.mid(1).toInt();
        if (innerreset==0){
            ui->resetlabel->setText("Reset inner successfully");
+       }else{
+           ui->resetlabel->setText("Try again!");
        }
    }
 }
@@ -255,7 +277,7 @@ void MainWindow::on_clearouterButton_clicked()
   clearOuter();
   QByteArray strOter="#0120";
   m_serial->write(strOter);
- if(m_serial->waitForReadyRead()){
+  if(m_serial->waitForReadyRead()){
      const QByteArray data2= m_serial->readAll();
      qDebug()<<data2;
      const char *mm2=data2.data();
@@ -264,7 +286,9 @@ void MainWindow::on_clearouterButton_clicked()
      outerreset=sss2.mid(2).toInt();
      if (outerreset==0){
          ui->resetlabel->setText("Reset outer successfully");
-     }
+     }else{
+      ui->resetlabel->setText("Try again!");
+  }
 }
 
 }
@@ -275,7 +299,7 @@ void MainWindow::on_clearmotoButton_clicked()
     clearMoto();
     QByteArray strOter="#0154";
     m_serial->write(strOter);
-   if(m_serial->waitForReadyRead()){
+    if(m_serial->waitForReadyRead()){
        const QByteArray data2= m_serial->readAll();
        qDebug()<<data2;
        const char *mm2=data2.data();
@@ -284,7 +308,9 @@ void MainWindow::on_clearmotoButton_clicked()
        motoreset=sss2.mid(1).toInt();
        if (motoreset==0){
            ui->resetlabel->setText("Reset moto successfully");
-       }
+       }else{
+        ui->resetlabel->setText("Try again!");
+    }
    }
 }
 
