@@ -25,7 +25,7 @@ public:
 //        int biground;
 //    };
 //    SerialData serialdata() const;
-    MainWindow(QWidget *parent = nullptr);
+   MainWindow(QWidget *parent = nullptr);
    void clearInner();
    void clearMoto();
    void clearOuter();

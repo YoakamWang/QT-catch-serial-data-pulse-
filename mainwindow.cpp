@@ -81,6 +81,7 @@ void MainWindow::on_startButton_clicked()
     ui->clearInnerButton->setEnabled(false);
     ui->clearouterButton->setEnabled(false);
     ui->startButton->setEnabled(false);
+    ui->connectButton->setEnabled(false);
     connect(&wriDataTimer, SIGNAL(timeout()), this, SLOT(readData()));                    //Timer for loop function
     wriDataTimer.start(60);
 }
@@ -94,6 +95,7 @@ void MainWindow::closeSerialPort()
     ui->disconnectButton->setEnabled(false);
     ui->configButton->setEnabled(true);
     ui->startButton->setEnabled(false);
+    ui->connectButton->setEnabled(true);
     //ui->writeButton->setEnabled(false);
 //    m_serialData.enround=0;
 //    m_serialData.motoround=0;
@@ -121,9 +123,9 @@ void MainWindow::clearInner(){
     innerclear.append('\x00');
     innerclear.append('\x43');
     innerclear.append('\x00');
-    innerclear.append('\x0D');
-    innerclear.append('\xB9');
-    innerclear.append('\xDB');
+    innerclear.append('\x0A');
+    innerclear.append('\xF8');
+    innerclear.append('\x19');
     if(!m_serial->waitForBytesWritten())   //Important
     {
        // m_serial->clear();
@@ -160,9 +162,9 @@ void MainWindow::clearOuter(){
           outerclear.append('\x00');
           outerclear.append('\x43');
           outerclear.append('\x00');
-          outerclear.append('\x0A');
-          outerclear.append('\xF8');
-          outerclear.append('\x19');
+          outerclear.append('\x0B');
+          outerclear.append('\x39');
+          outerclear.append('\xD9');
           if(!m_serial->waitForBytesWritten())   //Important
           {
              // m_serial->clear();
@@ -177,7 +179,7 @@ void MainWindow::readData()
 {
     flag=true;
     if(flag){
-        const QByteArray str1="#0123";
+        const QByteArray str1="#0120";
          //qDebug()<<1;
         m_serial->write(str1);
          if(m_serial->waitForReadyRead()){
@@ -228,11 +230,11 @@ void MainWindow::readData()
           }
 
 
-            QByteArray str3="#0120";
+            QByteArray str3="#0121";
             m_serial->write(str3);
            if(m_serial->waitForReadyRead()){
                 const QByteArray data2= m_serial->readAll();
-                //qDebug()<<data2;
+                qDebug()<<data2;
                 const char *mm2=data2.data();
                  QString sss2=mm2;
                  //double xishu11=1.32;
@@ -254,7 +256,7 @@ void MainWindow::on_clearInnerButton_clicked()
 {
     int innerreset;
     clearInner();
-    QByteArray strOter="#0123";
+    QByteArray strOter="#0120";
     m_serial->write(strOter);
    if(m_serial->waitForReadyRead()){
        const QByteArray data2= m_serial->readAll();
@@ -275,7 +277,7 @@ void MainWindow::on_clearouterButton_clicked()
 {
   int outerreset;
   clearOuter();
-  QByteArray strOter="#0120";
+  QByteArray strOter="#0121";
   m_serial->write(strOter);
   if(m_serial->waitForReadyRead()){
      const QByteArray data2= m_serial->readAll();
