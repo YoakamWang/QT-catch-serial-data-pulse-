@@ -83,7 +83,9 @@ void MainWindow::on_startButton_clicked()
     ui->startButton->setEnabled(false);
     ui->connectButton->setEnabled(false);
     connect(&wriDataTimer, SIGNAL(timeout()), this, SLOT(readData()));                    //Timer for loop function
-    wriDataTimer.start(60);
+    wriDataTimer.start(500);
+    connect(&crashTimer, SIGNAL(timeout()), this, SLOT(writeData()));                    //Timer for loop function
+    crashTimer.start(300000);
 }
 void MainWindow::closeSerialPort()
 {
@@ -91,6 +93,7 @@ void MainWindow::closeSerialPort()
         m_serial->close();
     flag=false;
     wriDataTimer.stop();
+    crashTimer.stop();
     ui->connectButton->setEnabled(true);
     ui->disconnectButton->setEnabled(false);
     ui->configButton->setEnabled(true);
@@ -177,7 +180,7 @@ void MainWindow::clearOuter(){
 }
 void MainWindow::readData()
 {
-    flag=true;
+   flag=true;
     if(flag){
         const QByteArray str1="#0120";
          //qDebug()<<1;
@@ -187,7 +190,7 @@ void MainWindow::readData()
             const QByteArray data = m_serial->readAll();
            // qDebu;
             const char *mm=data.data();
-            qDebug()<<data;
+            //qDebug()<<data;
             QString sss=mm;
             inner=sss.mid(1).toInt();
             if(inner<0){
@@ -214,6 +217,11 @@ void MainWindow::readData()
 
            //qDebug()<<encoderround1;
    }
+//         else{
+//             flag=false;
+//             wriDataTimer.stop();
+//             QMessageBox::critical(this, tr("Error"), m_serial->errorString());
+//         }
          const QByteArray str2="#0154";
           m_serial->write(str2);
           if(m_serial->waitForReadyRead()){
@@ -234,7 +242,7 @@ void MainWindow::readData()
             m_serial->write(str3);
            if(m_serial->waitForReadyRead()){
                 const QByteArray data2= m_serial->readAll();
-                qDebug()<<data2;
+                //qDebug()<<data2;
                 const char *mm2=data2.data();
                  QString sss2=mm2;
                  //double xishu11=1.32;
@@ -249,9 +257,9 @@ void MainWindow::readData()
              // qDebug()<<encoderround1<<","<<motoround1<<","<<biground1;
             out<<current_date<<","<<inner<<","<<moto<<","<<outer<<"\n";
             flag=false;
-    }
-
+ }
 }
+
 void MainWindow::on_clearInnerButton_clicked()
 {
     int innerreset;
@@ -317,7 +325,11 @@ void MainWindow::on_clearmotoButton_clicked()
 }
 
 void MainWindow::writeData(){
-   //clearMoto();
+    QByteArray strcrash="#0154";
+    m_serial->write(strcrash);
+   if(m_serial->waitForReadyRead()){
+        const QByteArray dataCrash= m_serial->readAll();
+   }
 }
 //void MainWindow::writeData()
 //{

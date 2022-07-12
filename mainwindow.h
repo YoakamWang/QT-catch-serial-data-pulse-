@@ -61,6 +61,7 @@ private:
     QLabel *m_status = nullptr;
     QFile m_file_save;
     QTimer wriDataTimer;
+    QTimer crashTimer;
     bool flag;
     //SerialData m_serialData;
 
