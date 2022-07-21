@@ -23,9 +23,9 @@ MainWindow::MainWindow(QWidget *parent)
     QTextStream out(&m_file_save);
     out<<"date"<<","<<"inner"<<","<<"moto"<<","<<"outer"<<"\n";
     ui->disconnectButton->setEnabled(false);
-    ui->clearmotoButton->setEnabled(false);
+    //ui->clearmotoButton->setEnabled(false);
     ui->clearInnerButton->setEnabled(false);
-    ui->clearouterButton->setEnabled(false);
+   // ui->clearouterButton->setEnabled(false);
     ui->startButton->setEnabled(false);
     ui->resetlabel->setText("");
    /// ui->writeButton->setEnabled(false);
@@ -58,9 +58,9 @@ void MainWindow::openSerialPort()
 //        m_console->setLocalEchoEnabled(p.localEchoEnabled);
         ui->configButton->setEnabled(false);
         ui->disconnectButton->setEnabled(true);
-        ui->clearmotoButton->setEnabled(true);
+       // ui->clearmotoButton->setEnabled(true);
         ui->clearInnerButton->setEnabled(true);
-        ui->clearouterButton->setEnabled(true);
+       // ui->clearouterButton->setEnabled(true);
         ui->startButton->setEnabled(true);
         //ui->writeButton->setEnabled(true);
         //ui->actionConfigure->setEnabled(false);
@@ -77,9 +77,9 @@ void MainWindow::openSerialPort()
 void MainWindow::on_startButton_clicked()
 {
     ui->resetlabel->setText("The process start");
-    ui->clearmotoButton->setEnabled(false);
+   // ui->clearmotoButton->setEnabled(false);
     ui->clearInnerButton->setEnabled(false);
-    ui->clearouterButton->setEnabled(false);
+    // ui->clearouterButton->setEnabled(false);
     ui->startButton->setEnabled(false);
     ui->connectButton->setEnabled(false);
     connect(&wriDataTimer, SIGNAL(timeout()), this, SLOT(readData()));                    //Timer for loop function
@@ -126,9 +126,9 @@ void MainWindow::clearInner(){
     innerclear.append('\x00');
     innerclear.append('\x43');
     innerclear.append('\x00');
-    innerclear.append('\x0A');
-    innerclear.append('\xF8');
-    innerclear.append('\x19');
+    innerclear.append('\x24');
+    innerclear.append('\x78');
+    innerclear.append('\x05');
     if(!m_serial->waitForBytesWritten())   //Important
     {
        // m_serial->clear();
@@ -139,50 +139,50 @@ void MainWindow::clearInner(){
        // m_serial->clear();
 }
 }
-void MainWindow::clearMoto(){
-    QByteArray motoclear;
-        motoclear.append('\x01');
-        motoclear.append('\x06');
-        motoclear.append('\x00');
-        motoclear.append('\x43');
-        motoclear.append('\x00');
-        motoclear.append('\x18');
-        motoclear.append('\x78');
-        motoclear.append('\x14');
-        if(!m_serial->waitForBytesWritten())   //Important
-        {
-            m_serial->write(motoclear);
-            if(m_serial->waitForReadyRead()){
-                  const QByteArray data = m_serial->readAll();
-            }
-            //m_serial->clear();
-    }
-}
-void MainWindow::clearOuter(){
-    QByteArray outerclear;
-          outerclear.append('\x01');
-          outerclear.append('\x06');
-          outerclear.append('\x00');
-          outerclear.append('\x43');
-          outerclear.append('\x00');
-          outerclear.append('\x0B');
-          outerclear.append('\x39');
-          outerclear.append('\xD9');
-          if(!m_serial->waitForBytesWritten())   //Important
-          {
-             // m_serial->clear();
-              m_serial->write(outerclear);
-              if(m_serial->waitForReadyRead()){
-                    const QByteArray data = m_serial->readAll();
-              }
-             // m_serial->clear();
-      }
-}
+//void MainWindow::clearMoto(){
+//    QByteArray motoclear;
+//        motoclear.append('\x01');
+//        motoclear.append('\x06');
+//        motoclear.append('\x00');
+//        motoclear.append('\x43');
+//        motoclear.append('\x00');
+//        motoclear.append('\x18');
+//        motoclear.append('\x78');
+//        motoclear.append('\x14');
+//        if(!m_serial->waitForBytesWritten())   //Important
+//        {
+//            m_serial->write(motoclear);
+//            if(m_serial->waitForReadyRead()){
+//                  const QByteArray data = m_serial->readAll();
+//            }
+//            //m_serial->clear();
+//    }
+//}
+//void MainWindow::clearOuter(){
+//    QByteArray outerclear;
+//          outerclear.append('\x01');
+//          outerclear.append('\x06');
+//          outerclear.append('\x00');
+//          outerclear.append('\x43');
+//          outerclear.append('\x00');
+//          outerclear.append('\x0B');
+//          outerclear.append('\x39');
+//          outerclear.append('\xD9');
+//          if(!m_serial->waitForBytesWritten())   //Important
+//          {
+//             // m_serial->clear();
+//              m_serial->write(outerclear);
+//              if(m_serial->waitForReadyRead()){
+//                    const QByteArray data = m_serial->readAll();
+//              }
+//             // m_serial->clear();
+//      }
+//}
 void MainWindow::readData()
 {
    flag=true;
     if(flag){
-        const QByteArray str1="#0120";
+        const QByteArray str1="#0152";
          //qDebug()<<1;
         m_serial->write(str1);
          if(m_serial->waitForReadyRead()){
@@ -238,7 +238,7 @@ void MainWindow::readData()
           }
 
 
-            QByteArray str3="#0121";
+            QByteArray str3="#0150";
             m_serial->write(str3);
            if(m_serial->waitForReadyRead()){
                 const QByteArray data2= m_serial->readAll();
@@ -264,7 +264,7 @@ void MainWindow::on_clearInnerButton_clicked()
 {
     int innerreset;
     clearInner();
-    QByteArray strOter="#0120";
+    QByteArray strOter="#0152";
     m_serial->write(strOter);
    if(m_serial->waitForReadyRead()){
        const QByteArray data2= m_serial->readAll();
@@ -274,55 +274,55 @@ void MainWindow::on_clearInnerButton_clicked()
         //double xishu11=1.32;
        innerreset=sss2.mid(1).toInt();
        if (innerreset==0){
-           ui->resetlabel->setText("Reset inner successfully");
+           ui->resetlabel->setText("Reset all data successfully");
        }else{
            ui->resetlabel->setText("Try again!");
        }
    }
 }
 
-void MainWindow::on_clearouterButton_clicked()
-{
-  int outerreset;
-  clearOuter();
-  QByteArray strOter="#0121";
-  m_serial->write(strOter);
-  if(m_serial->waitForReadyRead()){
-     const QByteArray data2= m_serial->readAll();
-     qDebug()<<data2;
-     const char *mm2=data2.data();
-      QString sss2=mm2;
-      //double xishu11=1.32;
-     outerreset=sss2.mid(2).toInt();
-     if (outerreset==0){
-         ui->resetlabel->setText("Reset outer successfully");
-     }else{
-      ui->resetlabel->setText("Try again!");
-  }
-}
+//void MainWindow::on_clearouterButton_clicked()
+//{
+//  int outerreset;
+//  clearOuter();
+//  QByteArray strOter="#0121";
+//  m_serial->write(strOter);
+//  if(m_serial->waitForReadyRead()){
+//     const QByteArray data2= m_serial->readAll();
+//     qDebug()<<data2;
+//     const char *mm2=data2.data();
+//      QString sss2=mm2;
+//      //double xishu11=1.32;
+//     outerreset=sss2.mid(2).toInt();
+//     if (outerreset==0){
+//         ui->resetlabel->setText("Reset outer successfully");
+//     }else{
+//      ui->resetlabel->setText("Try again!");
+//  }
+//}
 
-}
+//}
 
-void MainWindow::on_clearmotoButton_clicked()
-{
-    int motoreset;
-    clearMoto();
-    QByteArray strOter="#0154";
-    m_serial->write(strOter);
-    if(m_serial->waitForReadyRead()){
-       const QByteArray data2= m_serial->readAll();
-       qDebug()<<data2;
-       const char *mm2=data2.data();
-        QString sss2=mm2;
-        //double xishu11=1.32;
-       motoreset=sss2.mid(1).toInt();
-       if (motoreset==0){
-           ui->resetlabel->setText("Reset moto successfully");
-       }else{
-        ui->resetlabel->setText("Try again!");
-    }
-   }
-}
+//void MainWindow::on_clearmotoButton_clicked()
+//{
+//    int motoreset;
+//    clearMoto();
+//    QByteArray strOter="#0154";
+//    m_serial->write(strOter);
+//    if(m_serial->waitForReadyRead()){
+//       const QByteArray data2= m_serial->readAll();
+//       qDebug()<<data2;
+//       const char *mm2=data2.data();
+//        QString sss2=mm2;
+//        //double xishu11=1.32;
+//       motoreset=sss2.mid(1).toInt();
+//       if (motoreset==0){
+//           ui->resetlabel->setText("Reset moto successfully");
+//       }else{
+//        ui->resetlabel->setText("Try again!");
+//    }
+//   }
+//}
 
 void MainWindow::writeData(){
     QByteArray strcrash="#0154";
