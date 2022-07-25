@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>850</width>
     <height>600</height>
    </rect>
   </property>
@@ -34,21 +34,7 @@
       <item>
        <widget class="QPushButton" name="clearInnerButton">
         <property name="text">
-         <string>Reset Inner</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="clearmotoButton">
-        <property name="text">
-         <string>Reset Moto</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="clearouterButton">
-        <property name="text">
-         <string>Reset Outer</string>
+         <string>Clear Data</string>
         </property>
        </widget>
       </item>

@@ -46,9 +46,9 @@ private slots:
 
     void on_clearInnerButton_clicked();
 
-    void on_clearouterButton_clicked();
+//    void on_clearouterButton_clicked();
 
-    void on_clearmotoButton_clicked();
+//    void on_clearmotoButton_clicked();
 
     void on_startButton_clicked();
 
