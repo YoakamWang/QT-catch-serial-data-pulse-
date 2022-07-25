@@ -1,16 +1,22 @@
-import numpy
 import pandas as pd
-import datetime
 import matplotlib.pyplot as plt
 
-inner = 934452
-moto = 279750
-outer = 1167410
+firstIndex =10
+steps=18782  #14400 - two hours
+data = pd.read_csv("wavedata_save.csv")
+inner = data.inner[firstIndex + steps] - data.inner[firstIndex]  # 14400
+moto = data.moto[firstIndex + steps] - data.moto[firstIndex]
+outer = data.outer[firstIndex + steps] - data.outer[firstIndex]
+
+
+# inner = 258870-14385
+# moto = 77817-4369
+# outer = 349397-19618
 
 
 def addlabels(x, y):
     for i in range(len(x)):
-        plt.text(i, y[i]+320, y[i], horizontalalignment='center', verticalalignment='center',
+        plt.text(i, y[i], y[i], horizontalalignment='center', verticalalignment='center',
                  bbox=dict(facecolor='orange', alpha=0.4))
 
 
@@ -38,9 +44,10 @@ fig = plt.figure(figsize=(10, 7))
 plt.bar(items, dis, color='b', width=0.2)
 addlabels(items, dis)
 plt.xlabel("Total Mileage")
-plt.ylabel("No. of Total Mileage")
+plt.ylabel("No. of Total Mileage  m")
 
-plt.title("Outer wheel distance percent: %.4f%%\n" % (outerpercent * 100) + "Inner wheel distance percent: %.4f%%" % (
-            innerpercent * 100))
+plt.title("Outer encoder/Outer wheel distance percent: %.4f%%\n" % (
+        outerpercent * 100) + "Inner encoder/Inner wheel distance percent: %.4f%%" % (
+                  innerpercent * 100))
 
 plt.show()
