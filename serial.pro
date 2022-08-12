@@ -20,18 +20,21 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     settingsdialog.cpp \
-    qcustomplot.cpp
+    qcustomplot.cpp \
+    showdialog.cpp
 
 HEADERS += \
     Chart.h \
     mainwindow.h \
     settingsdialog.h \
-    qcustomplot.h
+    qcustomplot.h \
+    showdialog.h
 
 FORMS += \
     chart.ui \
     mainwindow.ui \
-    settingsdialog.ui
+    settingsdialog.ui \
+    showdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

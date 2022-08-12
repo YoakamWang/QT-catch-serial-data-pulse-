@@ -5,11 +5,13 @@
 #include <QDebug>
 #include <QThread>
 #include <iostream>
+#include <QProcess>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow),
     m_settings(new SettingsDialog),
+    m_show(new showDialog),
     m_serial(new QSerialPort(this)),
     m_status(new QLabel)
 {
@@ -22,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
     QTextStream out(&m_file_save);
     out<<"date"<<","<<"inner"<<","<<"moto"<<","<<"outer"<<"\n";
+
     ui->disconnectButton->setEnabled(false);
     //ui->clearmotoButton->setEnabled(false);
     ui->clearInnerButton->setEnabled(false);
@@ -35,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->configButton, &QPushButton::clicked, m_settings, &SettingsDialog::show);
     connect(ui->connectButton, &QPushButton::clicked, this, &MainWindow::openSerialPort);
     connect(ui->disconnectButton, &QPushButton::clicked, this, &MainWindow::closeSerialPort);
+    connect(ui->pushButton,&QPushButton::clicked,m_show,&showDialog::show);
+
     //connect(ui->writeButton,&QPushButton::clicked,this,&MainWindow::readData);
     //connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::readData);
     //connect(this,SIGNAL(signal_data(QString)),class::getInstance(),SLOT(slot_data(QString)));
@@ -42,7 +47,24 @@ MainWindow::MainWindow(QWidget *parent)
 //MainWindow::SerialData MainWindow::serialdata() const{
 //    return m_serialData;
 //}
+void MainWindow::OnReadData(){
+    QString strResult=QString::fromLocal8Bit(process1->readAllStandardOutput().data()).mid(0,4);
+    qDebug()<<strResult;
+}
 
+void MainWindow::on_pushButton_clicked()
+{
+    process1=new QProcess(this);
+//    process1->start("bash");
+//    process1->waitForStarted();
+//    process1->write("/usr/bin/python3.10 ./process_milldata.py");
+    process1->start("/usr/bin/python3.10 /home/yj/qtl/serial-pulse/process_milldata.py");
+    connect(process1,SIGNAL(readyReadStandardOutput()),this,SLOT(OnReadData()));
+
+//    QPixmap pic("result.png");
+//    ui->label->setPixmap(pic);
+
+}
 void MainWindow::openSerialPort()
 {
     const SettingsDialog::Settings p = m_settings->settings();
@@ -83,9 +105,9 @@ void MainWindow::on_startButton_clicked()
     ui->startButton->setEnabled(false);
     ui->connectButton->setEnabled(false);
     connect(&wriDataTimer, SIGNAL(timeout()), this, SLOT(readData()));                    //Timer for loop function
-    wriDataTimer.start(500);
-    connect(&crashTimer, SIGNAL(timeout()), this, SLOT(writeData()));                    //Timer for loop function
-    crashTimer.start(300000);
+    wriDataTimer.start(410);
+//    connect(&crashTimer, SIGNAL(timeout()), this, SLOT(writeData()));                    //Timer for loop function
+//    crashTimer.start(300000);
 }
 void MainWindow::closeSerialPort()
 {
@@ -116,6 +138,9 @@ void MainWindow::showStatusMessage(const QString &message)
 MainWindow::~MainWindow()
 {
     m_file_save.close();
+    process1->kill();
+    process1->close();
+    delete process1;
     delete ui;
 }
 
@@ -217,6 +242,7 @@ void MainWindow::readData()
 
            //qDebug()<<encoderround1;
    }
+         QThread::msleep(30);
 //         else{
 //             flag=false;
 //             wriDataTimer.stop();
@@ -236,7 +262,7 @@ void MainWindow::readData()
                  }
 
           }
-
+QThread::msleep(30);
 
             QByteArray str3="#0150";
             m_serial->write(str3);
@@ -251,6 +277,7 @@ void MainWindow::readData()
                      outer=-outer;
                  }
    }
+           QThread::msleep(30);
             QDateTime current_date_time =QDateTime::currentDateTime();
             QString current_date =current_date_time.toString("yyyy.MM.dd hh:mm:ss");
             QTextStream out(&m_file_save);
@@ -458,6 +485,7 @@ void MainWindow::writeData(){
 //               //m_serial->write(innerclear);
 //               //m_serial->write(outerclear);
   // }
+
 
 
 

@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include "Chart.h"
 #include "settingsdialog.h"
+#include "showdialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -38,6 +39,7 @@ private slots:
     void closeSerialPort();
     void readData();
     void writeData();
+    void OnReadData();
 
 //signals:
 //    void sendDataChart(int encoderround,int motoround,int biground);
@@ -52,17 +54,22 @@ private slots:
 
     void on_startButton_clicked();
 
+    void on_pushButton_clicked();
+
+
 private:
     void showStatusMessage(const QString &message);
 private:
     Ui::MainWindow *ui;
     SettingsDialog *m_settings = nullptr;
+    showDialog *m_show=nullptr;
     QSerialPort *m_serial = nullptr;
     QLabel *m_status = nullptr;
     QFile m_file_save;
     QTimer wriDataTimer;
     QTimer crashTimer;
     bool flag;
+    QProcess* process1;
     //SerialData m_serialData;
 
 };

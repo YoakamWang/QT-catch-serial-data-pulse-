@@ -1,19 +1,13 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-firstIndex =2
-steps=30000 #14400 - two hours
-data = pd.read_csv("wavedata_save.csv")
-#inner=0
-try:
-	inner = data.inner[firstIndex + steps] - data.inner[firstIndex]  # 14400
-	moto = data.moto[firstIndex + steps] - data.moto[firstIndex]
-	outer = data.outer[firstIndex + steps] - data.outer[firstIndex]
-except Exception:
-	inner = data.inner[len(data.inner)-1] - data.inner[firstIndex]  # 14400
-	moto = data.moto[len(data.inner)-1] - data.moto[firstIndex]
-	outer = data.outer[len(data.inner)-1] - data.outer[firstIndex]
-#print(data.inner[firstIndex])
+firstIndex =10
+steps=18782  #14400 - two hours
+data = pd.read_csv("/home/yj/qtl/serial-pulse/wavedata_save07221604.csv")
+inner = data.inner[firstIndex + steps] - data.inner[firstIndex]  # 14400
+moto = data.moto[firstIndex + steps] - data.moto[firstIndex]
+outer = data.outer[firstIndex + steps] - data.outer[firstIndex]
+
 
 # inner = 258870-14385
 # moto = 77817-4369
@@ -56,5 +50,6 @@ plt.title("Outer encoder/Outer wheel distance percent: %.4f%%\n" % (
         outerpercent * 100) + "Inner encoder/Inner wheel distance percent: %.4f%%" % (
                   innerpercent * 100))
 
-plt.show()
-
+#plt.show()
+plt.savefig("result.png")
+print("done")

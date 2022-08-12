@@ -61,6 +61,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Process</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="disconnectButton">
         <property name="text">
          <string>Disconnect</string>
@@ -77,7 +84,11 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="chartView"/>
+     <layout class="QHBoxLayout" name="chartView">
+      <property name="leftMargin">
+       <number>6</number>
+      </property>
+     </layout>
     </item>
    </layout>
   </widget>
