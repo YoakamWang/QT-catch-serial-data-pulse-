@@ -1,9 +1,12 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import sys
+
+path=sys.argv[1]
 
 firstIndex =10
 steps=18782  #14400 - two hours
-data = pd.read_csv("/home/yj/qtl/serial-pulse/wavedata_save07221604.csv")
+data = pd.read_csv(path)
 inner = data.inner[firstIndex + steps] - data.inner[firstIndex]  # 14400
 moto = data.moto[firstIndex + steps] - data.moto[firstIndex]
 outer = data.outer[firstIndex + steps] - data.outer[firstIndex]
@@ -51,5 +54,5 @@ plt.title("Outer encoder/Outer wheel distance percent: %.4f%%\n" % (
                   innerpercent * 100))
 
 #plt.show()
-plt.savefig("result.png")
+plt.savefig("/home/yj/Pictures/result/result.png")
 print("done")

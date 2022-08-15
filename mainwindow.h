@@ -40,12 +40,6 @@ private slots:
     void readData();
     void writeData();
     void OnReadData();
-
-//signals:
-//    void sendDataChart(int encoderround,int motoround,int biground);
-
-
-
     void on_clearInnerButton_clicked();
 
 //    void on_clearouterButton_clicked();
@@ -54,9 +48,14 @@ private slots:
 
     void on_startButton_clicked();
 
-    void on_pushButton_clicked();
+    void process_python(QString);
 
 
+    void on_pushButton_2_clicked();
+
+signals:
+//    void sendDataChart(int encoderround,int motoround,int biground);
+    void filePath(const QString);
 private:
     void showStatusMessage(const QString &message);
 private:

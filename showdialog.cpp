@@ -6,7 +6,7 @@ showDialog::showDialog(QWidget *parent) :
     ui(new Ui::showDialog)
 {
     ui->setupUi(this);
-    QPixmap pic("result.png");
+    QPixmap pic("/home/yj/Pictures/result/result.png");
     ui->label->setPixmap(pic);
 }
 

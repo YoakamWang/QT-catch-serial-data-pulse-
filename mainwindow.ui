@@ -14,31 +14,52 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="0">
+     <layout class="QHBoxLayout" name="chartView">
+      <property name="leftMargin">
+       <number>6</number>
+      </property>
+     </layout>
+    </item>
+    <item row="0" column="0">
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="3" column="0">
        <widget class="QPushButton" name="connectButton">
         <property name="text">
          <string>Connect</string>
         </property>
        </widget>
       </item>
-      <item>
+      <item row="3" column="5">
+       <widget class="QPushButton" name="disconnectButton">
+        <property name="text">
+         <string>Disconnect</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
        <widget class="QPushButton" name="startButton">
         <property name="text">
          <string>Start</string>
         </property>
        </widget>
       </item>
-      <item>
+      <item row="4" column="0">
        <widget class="QPushButton" name="clearInnerButton">
         <property name="text">
          <string>Clear Data</string>
         </property>
        </widget>
       </item>
-      <item>
+      <item row="4" column="1">
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Process</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="5">
        <widget class="QLabel" name="resetlabel">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -60,34 +81,20 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>Process</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="disconnectButton">
-        <property name="text">
-         <string>Disconnect</string>
-        </property>
-       </widget>
-      </item>
-      <item>
+      <item row="3" column="2">
        <widget class="QPushButton" name="configButton">
         <property name="text">
          <string>Config</string>
         </property>
        </widget>
       </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="chartView">
-      <property name="leftMargin">
-       <number>6</number>
-      </property>
+      <item row="4" column="2">
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="text">
+         <string>Load CSV File</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>
