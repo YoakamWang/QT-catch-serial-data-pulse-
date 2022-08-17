@@ -7,6 +7,7 @@
 #include <iostream>
 #include <QProcess>
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow),
@@ -14,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_show(new showDialog),
     m_serial(new QSerialPort(this)),
     m_status(new QLabel)
+   // mDb(DatabaseManager::instance())
+    //mpicture_dao(new PictureDao(QSqlDatabase& mDb))
 {
     ui->setupUi(this);
     setWindowTitle("New Solution Verification");
@@ -39,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->connectButton, &QPushButton::clicked, this, &MainWindow::openSerialPort);
     connect(ui->disconnectButton, &QPushButton::clicked, this, &MainWindow::closeSerialPort);
     connect(this,SIGNAL(filePath(QString)),this,SLOT(process_python(QString)));
+    // connect(this,SIGNAL(picpath(QString)),this,SLOT(process_python(QString))); not work
     connect(ui->pushButton,&QPushButton::clicked,m_show,&showDialog::show);
 
     //connect(ui->writeButton,&QPushButton::clicked,this,&MainWindow::readData);
@@ -49,8 +53,18 @@ MainWindow::MainWindow(QWidget *parent)
 //    return m_serialData;
 //}
 void MainWindow::OnReadData(){
-    QString strResult=QString::fromLocal8Bit(process1->readAllStandardOutput().data()).mid(0,4);
-    qDebug()<<strResult;
+    QString strResult=QString::fromLocal8Bit(process1->readAllStandardOutput().data());
+    filepath=strResult.mid(0,strResult.length()-1);
+    // qDebug()<<filepath;
+ //   filepath=mDb.pictureDao.picturePath();
+     //emit picpath(picname);
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    QString filename=QFileDialog::getOpenFileName(this,"Load CSV file",QDir::homePath(),"CSV file (*.csv)");
+    //qDebug()<<filename;
+    emit filePath(filename);
 }
 
 void MainWindow::process_python(QString p)
@@ -492,12 +506,6 @@ void MainWindow::writeData(){
   // }
 
 
-void MainWindow::on_pushButton_2_clicked()
-{
-    QString filename=QFileDialog::getOpenFileName(this,"Load CSV file",QDir::homePath(),"CSV file (*.csv)");
-    //qDebug()<<filename;
-    emit filePath(filename);
-}
 
 
 

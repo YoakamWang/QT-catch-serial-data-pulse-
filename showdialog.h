@@ -1,6 +1,6 @@
 #ifndef SHOWDIALOG_H
 #define SHOWDIALOG_H
-
+#include <QImageReader>
 #include <QDialog>
 
 namespace Ui {
@@ -14,6 +14,9 @@ class showDialog : public QDialog
 public:
     explicit showDialog(QWidget *parent = nullptr);
     ~showDialog();
+
+private slots:
+    void on_showButton_clicked();
 
 private:
     Ui::showDialog *ui;
