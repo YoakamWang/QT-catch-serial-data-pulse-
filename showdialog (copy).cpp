@@ -3,7 +3,7 @@
 #include <QDir>
 #include "mainwindow.h"
 
-//QString MainWindow::filepath;
+QString MainWindow::filepath;
 
 showDialog::showDialog(QWidget *parent) :
     QDialog(parent),
@@ -15,6 +15,7 @@ showDialog::showDialog(QWidget *parent) :
 //    QPixmap pic=QPixmap::fromImage(reader.read());
     QPixmap pic("./result1.png");
     ui->label->setPixmap(pic);
+
 }
 
 showDialog::~showDialog()
@@ -22,11 +23,11 @@ showDialog::~showDialog()
     delete ui;
 }
 
-void showDialog::showButton_clicked(QString pp)
+void showDialog::on_showButton_clicked()
 {
     QPixmap pic;
   // QString strPath=QDir::currentPath()+"/result.png";
-    QString strPath=pp;
+    QString strPath=MainWindow::filepath;
     // qDebug()<<strPath;
     if(pic.load(strPath))
     {

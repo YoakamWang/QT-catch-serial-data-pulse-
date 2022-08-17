@@ -21,7 +21,7 @@ public:
     static int inner; //Transfer the serial data from mainwindow to chart.
     static int moto;
     static int outer;
-    static QString filepath;
+//    static QString filepath;
 //    struct SerialData{
 //        int enround;
 //        int motoround;
@@ -58,7 +58,7 @@ private slots:
 signals:
 //    void sendDataChart(int encoderround,int motoround,int biground);
     void filePath(const QString);
-    //void picpath(const QString);
+    void picpath(const QString);
 private:
     void showStatusMessage(const QString &message);
 private:

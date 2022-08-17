@@ -16,7 +16,7 @@ public:
     ~showDialog();
 
 private slots:
-    void on_showButton_clicked();
+    void showButton_clicked(QString);
 
 private:
     Ui::showDialog *ui;

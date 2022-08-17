@@ -44,19 +44,6 @@
     <string>TextLabel</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="showButton">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>0</y>
-     <width>89</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Load Result</string>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections/>

@@ -6,7 +6,7 @@ import os
 path = sys.argv[1]
 
 firstIndex = 10
-steps = 100  # 14400 - two hours
+steps = 1000  # 14400 - two hours
 data = pd.read_csv(path)
 inner = data.inner[firstIndex + steps] - data.inner[firstIndex]  # 14400
 moto = data.moto[firstIndex + steps] - data.moto[firstIndex]

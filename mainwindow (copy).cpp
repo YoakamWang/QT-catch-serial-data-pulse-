@@ -54,10 +54,10 @@ MainWindow::MainWindow(QWidget *parent)
 //}
 void MainWindow::OnReadData(){
     QString strResult=QString::fromLocal8Bit(process1->readAllStandardOutput().data());
-    QString picname=strResult.mid(0,strResult.length()-1);
+    filepath=strResult.mid(0,strResult.length()-1);
     // qDebug()<<filepath;
  //   filepath=mDb.pictureDao.picturePath();
-     emit picpath(picname);
+     //emit picpath(picname);
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -65,12 +65,12 @@ void MainWindow::on_pushButton_2_clicked()
     QString filename=QFileDialog::getOpenFileName(this,"Load CSV file",QDir::homePath(),"CSV file (*.csv)");
     //qDebug()<<filename;
     emit filePath(filename);
-    connect(this,SIGNAL(picpath(QString)),m_show,SLOT(showButton_clicked(QString)));  //transfer the picture path
 }
 
 void MainWindow::process_python(QString p)
 {
-    // Setup a process to run the Python script   https://stackoverflow.com/questions/47276571/qprocess-passing-arguments-to-a-python-script
+    //  https://stackoverflow.com/questions/47276571/qprocess-passing-arguments-to-a-python-script
+    // qDebug()<<p;
     process1=new QProcess(this);
 //    process1->start("bash");
 //    process1->waitForStarted();
