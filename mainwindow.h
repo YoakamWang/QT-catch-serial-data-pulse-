@@ -50,14 +50,16 @@ private slots:
 
     void on_startButton_clicked();
 
-    void process_python(QString);
+    void process_python(QString,QString);
 
 
     void on_pushButton_2_clicked();
 
+    void on_lineEdit_editingFinished();
+
 signals:
 //    void sendDataChart(int encoderround,int motoround,int biground);
-    void filePath(const QString);
+    void filePath(const QString,const QString);
     void picpath(const QString);
 private:
     void showStatusMessage(const QString &message);

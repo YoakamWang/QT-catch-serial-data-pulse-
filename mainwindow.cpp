@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->configButton, &QPushButton::clicked, m_settings, &SettingsDialog::show);
     connect(ui->connectButton, &QPushButton::clicked, this, &MainWindow::openSerialPort);
     connect(ui->disconnectButton, &QPushButton::clicked, this, &MainWindow::closeSerialPort);
-    connect(this,SIGNAL(filePath(QString)),this,SLOT(process_python(QString)));
+    connect(this,SIGNAL(filePath(QString,QString)),this,SLOT(process_python(QString,QString)));
     // connect(this,SIGNAL(picpath(QString)),this,SLOT(process_python(QString))); not work
     connect(ui->pushButton,&QPushButton::clicked,m_show,&showDialog::show);
 
@@ -64,11 +64,13 @@ void MainWindow::on_pushButton_2_clicked()
 {
     QString filename=QFileDialog::getOpenFileName(this,"Load CSV file",QDir::homePath(),"CSV file (*.csv)");
     //qDebug()<<filename;
-    emit filePath(filename);
+   QString duration= ui->lineEdit->text(); //get the time duration to process user set.
+    //qDebug()<<duration;
+    emit filePath(filename,duration);
     connect(this,SIGNAL(picpath(QString)),m_show,SLOT(showButton_clicked(QString)));  //transfer the picture path
 }
 
-void MainWindow::process_python(QString p)
+void MainWindow::process_python(QString p,QString time)
 {
     // Setup a process to run the Python script   https://stackoverflow.com/questions/47276571/qprocess-passing-arguments-to-a-python-script
     process1=new QProcess(this);
@@ -77,7 +79,7 @@ void MainWindow::process_python(QString p)
 //    process1->write("/usr/bin/python3.10 ./process_milldata.py");
     QDir dir("/home/yj/qtl/serial-pulse");
     QFileInfo info(dir,"process_milldata.py");
-    process1->start("/usr/bin/python3.10",QStringList()<<info.absoluteFilePath()<<p);
+    process1->start("/usr/bin/python3.10",QStringList()<<info.absoluteFilePath()<<p<<time);
     connect(process1,SIGNAL(readyReadStandardOutput()),this,SLOT(OnReadData()));
 
 //    QPixmap pic("result.png");
@@ -512,3 +514,8 @@ void MainWindow::writeData(){
 
 
 
+
+void MainWindow::on_lineEdit_editingFinished()
+{
+
+}

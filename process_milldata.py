@@ -2,15 +2,42 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import sys
 import os
+from datetime import datetime
+import time
 
 path = sys.argv[1]
+duration = float(sys.argv[2])
 
-firstIndex = 10
-steps = 1000  # 14400 - two hours
-data = pd.read_csv(path)
-inner = data.inner[firstIndex + steps] - data.inner[firstIndex]  # 14400
-moto = data.moto[firstIndex + steps] - data.moto[firstIndex]
-outer = data.outer[firstIndex + steps] - data.outer[firstIndex]
+firstIndex = 2
+# steps = 18500  # 14400 - two hours
+# data = pd.read_csv(path)
+with open(path) as f:
+    data = pd.read_csv(f)
+    time_start1 = datetime.strptime(data.date[firstIndex], "%Y.%m.%d %H:%M:%S")
+    # Use time.mktime to convert datetime to timestamp    "2022.07.22 13:19:25"
+    timestamp_start1 = time.mktime(time_start1.timetuple())
+    timestamp_end1 = timestamp_start1 + duration * 3600
+    datetime_end1 = datetime.fromtimestamp(timestamp_end1).strftime("%Y.%m.%d %H:%M:%S")
+    steps = 0
+    # arr = data.date
+    # searchValue = datetime_end1
+    # index1 = arr.index(searchValue)
+    while steps < len(data['date']):
+        if data.date[steps] == datetime_end1:
+            # print(index)
+            break
+        steps += 1
+
+try:
+    inner = data.inner[firstIndex + steps] - data.inner[firstIndex]  # 14400
+    moto = data.moto[firstIndex + steps] - data.moto[firstIndex]
+    # inner7 = data.inner7[firstIndex + steps] - data.inner7[firstIndex]
+    outer = data.outer[firstIndex + steps] - data.outer[firstIndex]
+except Exception:
+    inner = data.inner[len(data.inner) - 2] - data.inner[firstIndex]
+    # inner7 = data.inner7[len(data.inner)-1] - data.inner7[firstIndex]
+    moto = data.moto[len(data.inner) - 2] - data.moto[firstIndex]
+    outer = data.outer[len(data.inner) - 2] - data.outer[firstIndex]
 
 
 # inner = 258870-14385
