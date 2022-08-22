@@ -7,9 +7,9 @@ import time
 
 path = sys.argv[1]
 # if not sys.argv[2]:
-#     duration=0
+#     duration=float(sys.argv[2])
 try:
-    sys.argv[2]
+    float(sys.argv[2])
 except Exception:
     duration = 2
 else:
