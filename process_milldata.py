@@ -6,7 +6,14 @@ from datetime import datetime
 import time
 
 path = sys.argv[1]
-duration = float(sys.argv[2])
+# if not sys.argv[2]:
+#     duration=0
+try:
+    sys.argv[2]
+except Exception:
+    duration = 2
+else:
+    duration = float(sys.argv[2])
 
 firstIndex = 2
 # steps = 18500  # 14400 - two hours
