@@ -188,9 +188,8 @@ class Person():
         # Print the class variables by using the class object.
         print("The salary of an Employee = ", cls_obj.salary)
 
-
-def email(self):
-    return '{}.{}@email.com'.format(self.first, self.last)
+    def email(self):
+        return '{}.{}@email.com'.format(self.first, self.last)
 
 
 # Init a Person
