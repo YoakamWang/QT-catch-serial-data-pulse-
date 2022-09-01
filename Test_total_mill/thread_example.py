@@ -130,9 +130,7 @@
 #     duration = time.time() - start_time
 #     print(f"Downloaded {len(sites)} in {duration} seconds")
 
-
-#!/usr/bin/env python3
-# import concurrent.futures
+# the non-concurrent version
 # import time
 #
 #
@@ -141,8 +139,8 @@
 #
 #
 # def find_sums(numbers):
-#     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-#         executor.map(cpu_bound, numbers)
+#     for number in numbers:
+#         cpu_bound(number)
 #
 #
 # if __name__ == "__main__":
@@ -153,7 +151,9 @@
 #     duration = time.time() - start_time
 #     print(f"Duration {duration} seconds")
 
-import multiprocessing
+# CPU- threading
+# !/usr/bin/env python3
+import concurrent.futures
 import time
 
 
@@ -162,15 +162,37 @@ def cpu_bound(number):
 
 
 def find_sums(numbers):
-    with multiprocessing.Pool() as pool:
-        pool.map(cpu_bound, numbers)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+        executor.map(cpu_bound, numbers)
 
 
 if __name__ == "__main__":
-    numbers = [50000000 + x for x in range(20)]
+    numbers = [5000000 + x for x in range(20)]
 
     start_time = time.time()
     find_sums(numbers)
     duration = time.time() - start_time
     print(f"Duration {duration} seconds")
 
+# CPU - multiprocessing
+
+# import multiprocessing
+# import time
+#
+#
+# def cpu_bound(number):
+#     return sum(i * i for i in range(number))
+#
+#
+# def find_sums(numbers):
+#     with multiprocessing.Pool() as pool:
+#         pool.map(cpu_bound, numbers)
+#
+#
+# if __name__ == "__main__":
+#     numbers = [50000000 + x for x in range(20)]
+#
+#     start_time = time.time()
+#     find_sums(numbers)
+#     duration = time.time() - start_time
+#     print(f"Duration {duration} seconds")
